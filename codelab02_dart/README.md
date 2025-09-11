@@ -49,24 +49,15 @@ Because **Flutter is built with Dart**, all Flutter application code is written 
 ### Null Safety
 - By default, variables **cannot be null** unless marked with `?`.  
 - Example:
-```dart
-void main() {
-  String? name; // can be null
-  print(name);  // output: null
-}
-```
+
+![alt text](img/question4_nullsafety.png)
 
 ### Late Variable
 - A variable will be assigned **later**, but must have a value before being used.  
 - Useful when a variable’s value will be set afterward.  
 - Example:
-```dart
-void main() {
-  late String name;
-  name = "Khoirul Anwar"; // must be initialized before use
-  print(name);
-}
-```
+
+![alt text](img/question4_latevariable.png)
 
 **Difference:**
 - **Null Safety (`?`)** → the variable can be empty (null).  
