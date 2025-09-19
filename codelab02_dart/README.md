@@ -36,8 +36,8 @@ Because **Flutter is built with Dart**, all Flutter application code is written 
 3. **History:** released in 2011, stable in 2013, Dart 2.0 (2018) → focused on mobile development.  
 4. **How it works:** JIT (Just-In-Time) for development/hot reload, AOT (Ahead-Of-Time) for high performance.  
 5. **Basic structure:**  
-   - `main()` function is required.  
-   - Supports OOP (class, object, method).  
+   - Type Data Flutter.
+   - `main()` function is required.   
    - Arithmetic, relational, and logical operators available.  
 6. **Learning tool:** DartPad (https://dartpad.dev).  
 
