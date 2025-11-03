@@ -4,13 +4,13 @@ NIM: 244107023007
 
 1. Complete Practicum 1 and 2, then document and push them to your repository in the form of screenshots of each piece of work along with explanations in the README.md file! If there are errors or code that does not run, please fix them according to the purpose of the application!
 
-<video controls src="img/Video WhatsApp 2025-10-30 pukul 18.49.11_3e24cb67.mp4" title="Title"></video>
+![alt text](img/VideoWhatsApp2025-10-30pukul18.49.11_3e24cb67-ezgif.com-video-to-gif-converter.gif)
 
-<video controls src="img/Video WhatsApp 2025-10-30 pukul 18.43.19_ea90a031.mp4" title="Title"></video>
+![alt text](img/VideoWhatsApp2025-10-30pukul18.43.19_ea90a031-ezgif.com-video-to-gif-converter.gif)
 
 2. Combine the results of practical work 1 with the results of practical work 2 so that after taking photos, you can create a carousel filter!
 
-<video controls src="img/Video WhatsApp 2025-10-30 pukul 20.01.10_46435c6b.mp4" title="Title"></video>
+![alt text](img/VideoWhatsApp2025-10-30pukul20.01.10_46435c6b-ezgif.com-video-to-gif-converter.gif)
 
 3. Explain the meaning of void async in practical 1.
 

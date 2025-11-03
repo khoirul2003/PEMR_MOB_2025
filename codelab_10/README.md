@@ -27,7 +27,7 @@ It is initialized with `const Plan()` as its **default value**, representing an 
 
 ### Step 9 Result (GIF)
 
-<video controls src="img/Video WhatsApp 2025-11-03 pukul 14.41.19_522a022f.mp4" title="Title"></video>
+![alt text](img/VideoWhatsApp2025-11-03pukul14.41.19_522a022f-ezgif.com-video-to-gif-converter.gif)
 
 * **`+` Button (FloatingActionButton):** When pressed, it adds a new, empty task row to the list.
 * **Task List:** Each task row has:
@@ -69,7 +69,7 @@ These are **derived properties (getters)** that function to calculate task progr
 
 ### Step 9 Result (GIF)
 
-<video controls src="img/Video WhatsApp 2025-11-03 pukul 14.22.58_36d3deca.mp4" title="Title"></video>
+![alt text](img/VideoWhatsApp2025-11-03pukul14.22.58_36d3deca-ezgif.com-video-to-gif-converter.gif)
 
 The main difference is: there is now **progress text at the bottom of the screen** (e.g., "0 out of 0 tasks").
 
@@ -99,7 +99,7 @@ This diagram explains the app's navigation flow and widget structure:
 
 ### Step 14 Result (GIF)
 
-<video controls src="img/Video WhatsApp 2025-11-03 pukul 14.22.57_6f5aa0d3.mp4" title="Title"></video>
+![alt text](img/VideoWhatsApp2025-11-03pukul14.22.57_6f5aa0d3-ezgif.com-video-to-gif-converter.gif)
 
 * **Initial Screen:** Displays the message "You don't have any plans yet." with an icon.
 * **Adding a Plan:** You type a new plan name (e.g., "Testing") into the top `TextField` and press enter.
