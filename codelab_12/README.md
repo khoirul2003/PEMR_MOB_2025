@@ -93,3 +93,16 @@ Jawaban:
 Soal 4
 
 ![alt text](img/soal_4.gif)
+
+Soal 5
+
+![alt text](img/soal_5.gif)
+
+| Fitur        | await for                                                                 | listen()                                                                                  |
+|--------------|---------------------------------------------------------------------------|-------------------------------------------------------------------------------------------|
+| **Sifat**    | *Blocking* (menunggu), synchronous di dalam fungsi `async`.               | *Non-blocking* (asynchronous), event-driven.                                              |
+| **Kapan Berhenti** | Berhenti hanya ketika fungsi `async` yang mengandungnya selesai, atau Stream selesai. | Perlu dihentikan secara eksplisit (misalnya di `dispose()` dengan `StreamSubscription`). |
+| **Penggunaan Umum** | Untuk memproses semua event secara berurutan di dalam satu fungsi hingga Stream selesai. | Untuk menangani event secara *real-time* di UI (seperti `setState`) dan tetap memungkinkan kode lain berjalan secara paralel. |
+
+
+Soal 6

@@ -43,15 +43,21 @@ class _StreamHomePageState extends State<StreamHomePage> {
     changeColor();
   }
 
-  // Langkah 9: Tambah method changeColor()
+  // Langkah 9/13: Ganti isi method changeColor()
   void changeColor() async {
-    // Mendengarkan stream warna dari colorStream.getColors()
-    // Loop akan berjalan selama stream terus mengeluarkan event
-    await for (var eventColor in colorStream.getColors()) {
+    // Kode sebelumnya (await for):
+    // await for (var eventColor in colorStream.getColors()) {
+    //   setState(() {
+    //     bgColor = eventColor;
+    //   });
+    // }
+
+    // Langkah 13: Menggunakan .listen()
+    colorStream.getColors().listen((eventColor) {
       setState(() {
-        bgColor = eventColor; // Mengubah warna background setiap ada event baru
+        bgColor = eventColor;
       });
-    }
+    });
   }
 
   @override
