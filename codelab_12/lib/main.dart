@@ -35,7 +35,6 @@ class StreamHomePage extends StatefulWidget {
 class _StreamHomePageState extends State<StreamHomePage> {
   // Variabel untuk Stream Warna (dari praktikum sebelumnya)
   Color bgColor = Colors.blueGrey;
-  // late ColorStream colorStream; // Di-comment karena fokus ke NumberStream
 
   // Langkah 7: Tambah variabel untuk NumberStream
   int lastNumber = 0;
@@ -43,14 +42,19 @@ class _StreamHomePageState extends State<StreamHomePage> {
   late StreamController<int> numberStreamController;
   late NumberStream numberStream;
 
-  // Langkah 10: Tambah method addRandomNumber()
+  // Langkah 10 & 15: Tambah dan Edit method addRandomNumber()
   void addRandomNumber() {
     Random random = Random();
+
+    // Kode untuk Soal 7 (Langkah 15):
+    // numberStream.addError();
+
+    // Kembalikan kode ke kondisi semula (untuk Praktikum 3)
     int myNum = random.nextInt(10); // Menghasilkan angka 0-9
     numberStream.addNumberToSink(myNum); // Mengirim angka ke sink
   }
 
-  // Langkah 8: Edit initState()
+  // Langkah 8 & 14: Edit initState()
   @override
   void initState() {
     super.initState();
@@ -60,16 +64,18 @@ class _StreamHomePageState extends State<StreamHomePage> {
     numberStreamController = numberStream.controller;
     Stream<int> stream = numberStreamController.stream;
 
-    // Mulai mendengarkan stream
-    stream.listen((event) {
-      setState(() {
-        lastNumber = event; // Memperbarui UI dengan angka baru
-      });
-    });
-
-    // Inisialisasi stream warna sebelumnya (opsional, jika ingin tetap aktif)
-    // colorStream = ColorStream();
-    // changeColor();
+    // Mulai mendengarkan stream (Langkah 14: Tambah onError)
+    stream
+        .listen((event) {
+          setState(() {
+            lastNumber = event; // Memperbarui UI dengan angka baru
+          });
+        })
+        .onError((error) {
+          setState(() {
+            lastNumber = -1; // Mengatur -1 jika terjadi error
+          });
+        });
   }
 
   // Langkah 9: Edit dispose()
@@ -82,12 +88,7 @@ class _StreamHomePageState extends State<StreamHomePage> {
 
   // Method changeColor dari praktikum 1
   void changeColor() async {
-    // Langkah 13: Menggunakan .listen()
-    // colorStream.getColors().listen((eventColor) {
-    //   setState(() {
-    //     bgColor = eventColor;
-    //   });
-    // });
+    // kode dihilangkan karena fokus ke NumberStream
   }
 
   @override
@@ -103,10 +104,15 @@ class _StreamHomePageState extends State<StreamHomePage> {
           children: [
             // Menampilkan angka acak terakhir
             Text(
-              lastNumber.toString(),
+              lastNumber == -1
+                  ? 'ERROR'
+                  : lastNumber
+                        .toString(), // Tampilkan ERROR jika lastNumber = -1
               style: Theme.of(context).textTheme.displayLarge?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: Theme.of(context).primaryColor,
+                color: lastNumber == -1
+                    ? Colors.red
+                    : Theme.of(context).primaryColor,
               ),
             ),
             // Tombol untuk memicu penambahan angka acak

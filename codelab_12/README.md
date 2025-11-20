@@ -116,3 +116,16 @@ Menginisialisasi controller dan stream, lalu mulai mendengarkan stream tersebut.
 Maksud Kode Langkah 10 (addRandomNumber()):
 
 Menghasilkan angka acak dari 0 hingga 9 dan mengirimkannya ke sink dari NumberStream controller. Angka ini kemudian menjadi event baru di stream.
+
+Soal 7
+
+![alt text](img/soal_7.gif)
+
+Langkah 13 (addError()): Menambahkan method yang sengaja mengirimkan objek error ke dalam stream melalui sink controller.
+
+Langkah 14 (onError): Menambahkan handler onError pada listener yang bertugas menangkap error yang dikirimkan oleh stream dan memperbarui UI (lastNumber = -1).
+
+Langkah 15 (Edit addRandomNumber()): Mengubah fungsi tombol agar langsung memicu pengiriman error (Langkah 13), bukan angka acak, untuk menguji penanganan error (Langkah 14).
+
+Soal 8
+
