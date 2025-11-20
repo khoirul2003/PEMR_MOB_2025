@@ -9,9 +9,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Soal 1: Tambahkan nama panggilan Anda pada title app
     return MaterialApp(
       title: 'Stream - Khoirul',
       theme: ThemeData(
+        // Soal 1: Gantilah warna tema aplikasi sesuai kesukaan Anda (diubah menjadi teal)
         primarySwatch: Colors.teal,
       ),
       home: const StreamHomePage(),
@@ -29,6 +31,7 @@ class StreamHomePage extends StatefulWidget {
 class _StreamHomePageState extends State<StreamHomePage> {
   @override
   Widget build(BuildContext context) {
+    // Membuat tampilan dasar dengan AppBar untuk melihat perubahan judul dan warna tema
     return Scaffold(
       appBar: AppBar(title: const Text('Aplikasi Stream - Khoirul')),
       body: Center(

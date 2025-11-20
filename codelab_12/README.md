@@ -64,3 +64,30 @@ class ColorStream {
 }
 ```
 
+
+Soal 3
+
+```dart
+yield* Stream.periodic(
+  const Duration(seconds: 1), (int t) {
+    int index = t % colors.length;
+    return colors[index];
+});
+```
+
+Jelaskan fungsi keyword yield* pada kode tersebut!
+Apa maksud isi perintah kode tersebut?
+
+Jawaban:
+
+1. Fungsi Keyword yield*:
+
+  - Fungsi dari yield* (baca: yield star) adalah untuk mendelegasikan pengeluaran (emitting) item dari satu generator (async* atau sync* function) ke generator lain atau, dalam kasus ini, ke Stream lain.
+
+  - Secara spesifik, yield* mengambil semua elemen dari Stream yang dioperasikan (Stream.periodic dalam kasus ini) dan "mengeluarkannya" (yields them) satu per satu ke dalam Stream yang sedang didefinisikan (getColors()). Ini memungkinkan getColors() untuk menjadi penghubung langsung ke Stream yang dihasilkan oleh Stream.periodic.
+
+2. Maksud Isi Perintah Kode:
+
+  - Perintah kode tersebut membuat Stream periodik yang akan mengeluarkan (emit) salah satu dari sepuluh warna di dalam colors setiap 1 detik, mengulangi urutan warna tersebut secara terus-menerus.
+
+Soal 4
