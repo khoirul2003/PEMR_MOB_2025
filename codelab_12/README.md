@@ -129,3 +129,8 @@ Langkah 15 (Edit addRandomNumber()): Mengubah fungsi tombol agar langsung memicu
 
 Soal 8
 
+![alt text](20251120-2255-07.8634104.gif)
+
+Langkah 1-2 (Deklarasi dan Inisialisasi transformer): Membuat objek StreamTransformer yang bertugas memodifikasi data (event). Setiap angka yang masuk akan dikalikan 10 (handleData), dan setiap error yang masuk akan diganti menjadi nilai data -1 (handleError).
+
+Langkah 3 (Penerapan transform): Menerapkan transformer ke stream sebelum didengarkan (.listen). Ini memastikan bahwa setiap angka yang diterima dari controller akan diubah (dikali 10 atau diganti -1) sebelum ditampilkan di UI.

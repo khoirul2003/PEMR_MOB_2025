@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Soal 1: Tambahkan nama panggilan Anda pada title app
+    // Soal 1: Tambahkan nama panggilan Anda pada title app (diperbarui menjadi Khoirul)
     return MaterialApp(
       title: 'Stream - Khoirul',
       theme: ThemeData(
@@ -42,19 +42,19 @@ class _StreamHomePageState extends State<StreamHomePage> {
   late StreamController<int> numberStreamController;
   late NumberStream numberStream;
 
+  // Langkah 1: Tambahkan variabel baru untuk transformer
+  late StreamTransformer<int, int> transformer;
+
   // Langkah 10 & 15: Tambah dan Edit method addRandomNumber()
   void addRandomNumber() {
     Random random = Random();
-
-    // Kode untuk Soal 7 (Langkah 15):
-    // numberStream.addError();
 
     // Kembalikan kode ke kondisi semula (untuk Praktikum 3)
     int myNum = random.nextInt(10); // Menghasilkan angka 0-9
     numberStream.addNumberToSink(myNum); // Mengirim angka ke sink
   }
 
-  // Langkah 8 & 14: Edit initState()
+  // Langkah 8, 14, 2, 3: Edit initState()
   @override
   void initState() {
     super.initState();
@@ -64,14 +64,30 @@ class _StreamHomePageState extends State<StreamHomePage> {
     numberStreamController = numberStream.controller;
     Stream<int> stream = numberStreamController.stream;
 
-    // Mulai mendengarkan stream (Langkah 14: Tambah onError)
+    // Langkah 2: Tambahkan kode transformer
+    transformer = StreamTransformer<int, int>.fromHandlers(
+      handleData: (value, sink) {
+        sink.add(value * 10); // Data: Kalikan nilai dengan 10
+      },
+      handleError: (error, trace, sink) {
+        sink.add(-1); // Error: Ganti error dengan nilai -1
+      },
+      handleDone: (sink) =>
+          sink.close(), // Done: Tutup sink saat stream selesai
+    );
+
+    // Langkah 3: Edit listen dengan transform
     stream
+        .transform(transformer)
         .listen((event) {
+          // Menerapkan transformer ke stream
           setState(() {
-            lastNumber = event; // Memperbarui UI dengan angka baru
+            lastNumber =
+                event; // lastNumber akan menyimpan nilai event * 10 atau -1
           });
         })
         .onError((error) {
+          // Handler error ini bisa dipicu jika error tidak ditangani di transformer
           setState(() {
             lastNumber = -1; // Mengatur -1 jika terjadi error
           });
@@ -104,10 +120,8 @@ class _StreamHomePageState extends State<StreamHomePage> {
           children: [
             // Menampilkan angka acak terakhir
             Text(
-              lastNumber == -1
-                  ? 'ERROR'
-                  : lastNumber
-                        .toString(), // Tampilkan ERROR jika lastNumber = -1
+              // Tampilkan ERROR jika lastNumber = -1, jika tidak tampilkan angka
+              lastNumber == -1 ? 'ERROR' : lastNumber.toString(),
               style: Theme.of(context).textTheme.displayLarge?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: lastNumber == -1
