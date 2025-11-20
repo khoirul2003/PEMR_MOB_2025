@@ -134,3 +134,14 @@ Soal 8
 Langkah 1-2 (Deklarasi dan Inisialisasi transformer): Membuat objek StreamTransformer yang bertugas memodifikasi data (event). Setiap angka yang masuk akan dikalikan 10 (handleData), dan setiap error yang masuk akan diganti menjadi nilai data -1 (handleError).
 
 Langkah 3 (Penerapan transform): Menerapkan transformer ke stream sebelum didengarkan (.listen). Ini memastikan bahwa setiap angka yang diterima dari controller akan diubah (dikali 10 atau diganti -1) sebelum ditampilkan di UI.
+
+Soal 9
+
+![alt text](img/soal_9.gif)
+
+Langkah 2 (Edit initState()): Melakukan langganan (subscribe) ke stream yang telah dimodifikasi oleh transformer dan menyimpan hasilnya ke variabel subscription. Ini memungkinkan langganan dikontrol (pause, resume, cancel).
+
+Langkah 6 (dispose() dengan subscription.cancel()): Membatalkan langganan stream ketika objek State widget dimusnahkan. Hal ini penting untuk mencegah kebocoran memori (memory leak) karena listener stream akan berhenti bekerja.
+
+Langkah 8 (Edit addRandomNumber()): Menambahkan validasi (!numberStreamController.isClosed). Jika stream sudah ditutup (dibatalkan), data baru dicegah untuk dikirim, dan UI diperbarui untuk menunjukkan stream sudah tidak aktif.
+

@@ -38,33 +38,47 @@ class _StreamHomePageState extends State<StreamHomePage> {
 
   // Langkah 7: Tambah variabel untuk NumberStream
   int lastNumber = 0;
-  // Gunakan tipe yang benar, yaitu StreamController<int>
   late StreamController<int> numberStreamController;
   late NumberStream numberStream;
 
-  // Langkah 1: Tambahkan variabel baru untuk transformer
+  // Praktikum 3: Variabel untuk transformer
   late StreamTransformer<int, int> transformer;
 
-  // Langkah 10 & 15: Tambah dan Edit method addRandomNumber()
-  void addRandomNumber() {
-    Random random = Random();
+  // Langkah 1: Tambah variabel untuk StreamSubscription
+  late StreamSubscription subscription;
 
-    // Kembalikan kode ke kondisi semula (untuk Praktikum 3)
-    int myNum = random.nextInt(10); // Menghasilkan angka 0-9
-    numberStream.addNumberToSink(myNum); // Mengirim angka ke sink
+  // Langkah 5: Tambah method baru stopStream()
+  void stopStream() {
+    // Menutup controller, yang akan memicu onDone()
+    numberStreamController.close();
   }
 
-  // Langkah 8, 14, 2, 3: Edit initState()
+  // Langkah 8: Edit method addRandomNumber()
+  void addRandomNumber() {
+    Random random = Random();
+    int myNum = random.nextInt(10); // Menghasilkan angka 0-9
+
+    // Cek apakah controller sudah ditutup sebelum menambahkan data
+    if (!numberStreamController.isClosed) {
+      numberStream.addNumberToSink(myNum); // Mengirim angka ke sink
+    } else {
+      // Jika stream sudah ditutup, perbarui UI untuk menunjukkan stream mati
+      setState(() {
+        lastNumber = -1;
+      });
+    }
+  }
+
+  // Langkah 2, 3, 4: Edit initState()
   @override
   void initState() {
     super.initState();
     // Inisialisasi NumberStream
     numberStream = NumberStream();
-    // Mengambil controller dan stream
     numberStreamController = numberStream.controller;
     Stream<int> stream = numberStreamController.stream;
 
-    // Langkah 2: Tambahkan kode transformer
+    // Inisialisasi Transformer (dari Praktikum 3)
     transformer = StreamTransformer<int, int>.fromHandlers(
       handleData: (value, sink) {
         sink.add(value * 10); // Data: Kalikan nilai dengan 10
@@ -76,28 +90,34 @@ class _StreamHomePageState extends State<StreamHomePage> {
           sink.close(), // Done: Tutup sink saat stream selesai
     );
 
-    // Langkah 3: Edit listen dengan transform
-    stream
-        .transform(transformer)
-        .listen((event) {
-          // Menerapkan transformer ke stream
-          setState(() {
-            lastNumber =
-                event; // lastNumber akan menyimpan nilai event * 10 atau -1
-          });
-        })
-        .onError((error) {
-          // Handler error ini bisa dipicu jika error tidak ditangani di transformer
-          setState(() {
-            lastNumber = -1; // Mengatur -1 jika terjadi error
-          });
-        });
+    // Langkah 2: Mengambil StreamSubscription dari stream yang sudah ditransform
+    subscription = stream.transform(transformer).listen((event) {
+      setState(() {
+        lastNumber =
+            event; // lastNumber akan menyimpan nilai event * 10 atau -1
+      });
+    });
+
+    // Langkah 3: Menambahkan onError ke StreamSubscription
+    subscription.onError((error) {
+      setState(() {
+        lastNumber = -1; // Mengatur -1 jika terjadi error
+      });
+    });
+
+    // Langkah 4: Menambahkan onDone ke StreamSubscription
+    subscription.onDone(() {
+      print('OnDone was called');
+    });
   }
 
-  // Langkah 9: Edit dispose()
+  // Langkah 6: Pindah ke method dispose()
   @override
   void dispose() {
-    // Menutup controller saat widget dibuang
+    // Membatalkan langganan ketika widget dibuang
+    subscription.cancel();
+    // Menutup controller (walaupun subscription.cancel() sudah membatalkan, ini penting
+    // agar controller tidak bocor jika tidak ada kode cancel)
     numberStreamController.close();
     super.dispose();
   }
@@ -111,7 +131,7 @@ class _StreamHomePageState extends State<StreamHomePage> {
   Widget build(BuildContext context) {
     // Langkah 11: Edit method build()
     return Scaffold(
-      appBar: AppBar(title: const Text('Dart Streams Controller - Khoirul')),
+      appBar: AppBar(title: const Text('Dart Streams Subscription - Khoirul')),
       body: SizedBox(
         width: double.infinity,
         child: Column(
@@ -121,7 +141,7 @@ class _StreamHomePageState extends State<StreamHomePage> {
             // Menampilkan angka acak terakhir
             Text(
               // Tampilkan ERROR jika lastNumber = -1, jika tidak tampilkan angka
-              lastNumber == -1 ? 'ERROR' : lastNumber.toString(),
+              lastNumber == -1 ? 'Stream Closed' : lastNumber.toString(),
               style: Theme.of(context).textTheme.displayLarge?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: lastNumber == -1
@@ -129,10 +149,15 @@ class _StreamHomePageState extends State<StreamHomePage> {
                     : Theme.of(context).primaryColor,
               ),
             ),
-            // Tombol untuk memicu penambahan angka acak
+            // Tombol 1: Untuk memicu penambahan angka acak
             ElevatedButton(
               onPressed: () => addRandomNumber(),
               child: const Text('New Random Number'),
+            ),
+            // Langkah 7: Tambahkan button kedua
+            ElevatedButton(
+              onPressed: () => stopStream(),
+              child: const Text('Stop Subscription'),
             ),
           ],
         ),
