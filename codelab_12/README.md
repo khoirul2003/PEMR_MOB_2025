@@ -1,16 +1,43 @@
-# codelab_12
+Nama: Muhammad Khoirul Anwarudin
 
-A new Flutter project.
+Class: TI3I
 
-## Getting Started
+NIM: 24410702003
 
-This project is a starting point for a Flutter application.
+Soal 1
 
-A few resources to get you started if this is your first Flutter project:
+```dart
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Stream - Khoirul',
+      theme: ThemeData(
+        primarySwatch: Colors.teal,
+      ),
+      home: const StreamHomePage(),
+    );
+  }
+}
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```dart
+class _StreamHomePageState extends State<StreamHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Aplikasi Stream - Khoirul')),
+      body: Center(
+        child: Text(
+          'Halaman Utama Streams',
+          style: Theme.of(context).textTheme.headlineMedium,
+        ),
+      ),
+    );
+  }
+}
+```
+
+![alt text](img/soal_1.png)
