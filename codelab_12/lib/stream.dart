@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+// Langkah 1: Import dart:async
+import 'dart:async';
 
 class ColorStream {
   // Langkah 4 & Jawaban Soal 2: Tambah variabel colors dengan 10 warna
@@ -23,5 +25,21 @@ class ColorStream {
       int index = t % colors.length;
       return colors[index];
     });
+  }
+}
+
+// Langkah 2: Tambah class NumberStream
+class NumberStream {
+  // Langkah 3: Tambah StreamController
+  final StreamController<int> controller = StreamController<int>();
+
+  // Langkah 4: Tambah method addNumberToSink
+  void addNumberToSink(int newNumber) {
+    controller.sink.add(newNumber);
+  }
+
+  // Langkah 5: Tambah method close()
+  close() {
+    controller.close();
   }
 }

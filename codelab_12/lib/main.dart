@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-// Langkah 7: Import file stream.dart
+// Langkah 6: Import dart:async dan dart:math
+import 'dart:async';
+import 'dart:math';
 import 'stream.dart';
 
 void main() {
@@ -31,62 +33,88 @@ class StreamHomePage extends StatefulWidget {
 }
 
 class _StreamHomePageState extends State<StreamHomePage> {
-  // Langkah 8: Tambah variabel
+  // Variabel untuk Stream Warna (dari praktikum sebelumnya)
   Color bgColor = Colors.blueGrey;
-  late ColorStream colorStream;
+  // late ColorStream colorStream; // Di-comment karena fokus ke NumberStream
 
-  // Langkah 10: Lakukan override initState()
+  // Langkah 7: Tambah variabel untuk NumberStream
+  int lastNumber = 0;
+  // Gunakan tipe yang benar, yaitu StreamController<int>
+  late StreamController<int> numberStreamController;
+  late NumberStream numberStream;
+
+  // Langkah 10: Tambah method addRandomNumber()
+  void addRandomNumber() {
+    Random random = Random();
+    int myNum = random.nextInt(10); // Menghasilkan angka 0-9
+    numberStream.addNumberToSink(myNum); // Mengirim angka ke sink
+  }
+
+  // Langkah 8: Edit initState()
   @override
   void initState() {
     super.initState();
-    colorStream = ColorStream();
-    changeColor();
+    // Inisialisasi NumberStream
+    numberStream = NumberStream();
+    // Mengambil controller dan stream
+    numberStreamController = numberStream.controller;
+    Stream<int> stream = numberStreamController.stream;
+
+    // Mulai mendengarkan stream
+    stream.listen((event) {
+      setState(() {
+        lastNumber = event; // Memperbarui UI dengan angka baru
+      });
+    });
+
+    // Inisialisasi stream warna sebelumnya (opsional, jika ingin tetap aktif)
+    // colorStream = ColorStream();
+    // changeColor();
   }
 
-  // Langkah 9/13: Ganti isi method changeColor()
+  // Langkah 9: Edit dispose()
+  @override
+  void dispose() {
+    // Menutup controller saat widget dibuang
+    numberStreamController.close();
+    super.dispose();
+  }
+
+  // Method changeColor dari praktikum 1
   void changeColor() async {
-    // Kode sebelumnya (await for):
-    // await for (var eventColor in colorStream.getColors()) {
+    // Langkah 13: Menggunakan .listen()
+    // colorStream.getColors().listen((eventColor) {
     //   setState(() {
     //     bgColor = eventColor;
     //   });
-    // }
-
-    // Langkah 13: Menggunakan .listen()
-    colorStream.getColors().listen((eventColor) {
-      setState(() {
-        bgColor = eventColor;
-      });
-    });
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
-    // Langkah 11: Ubah isi Scaffold()
+    // Langkah 11: Edit method build()
     return Scaffold(
-      appBar: AppBar(title: const Text('Dart Streams App - Khoirul')),
-      body: Container(
-        // Menggunakan bgColor untuk dekorasi background
-        decoration: BoxDecoration(color: bgColor),
-        // Tambahkan child agar container memiliki ukuran penuh dan teks di tengah
-        child: Center(
-          child: Text(
-            'Warna Akan Berubah Otomatis',
-            style: TextStyle(
-              color: Colors.white.withOpacity(
-                0.9,
-              ), // Teks putih agar terlihat di semua warna
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              shadows: const [
-                Shadow(
-                  blurRadius: 5.0,
-                  color: Colors.black54,
-                  offset: Offset(2, 2),
-                ),
-              ],
+      appBar: AppBar(title: const Text('Dart Streams Controller - Khoirul')),
+      body: SizedBox(
+        width: double.infinity,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // Menampilkan angka acak terakhir
+            Text(
+              lastNumber.toString(),
+              style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).primaryColor,
+              ),
             ),
-          ),
+            // Tombol untuk memicu penambahan angka acak
+            ElevatedButton(
+              onPressed: () => addRandomNumber(),
+              child: const Text('New Random Number'),
+            ),
+          ],
         ),
       ),
     );

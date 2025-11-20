@@ -106,3 +106,13 @@ Soal 5
 
 
 Soal 6
+
+![alt text](img/soal_6.gif)
+
+Maksud Kode Langkah 8 (initState()):
+
+Menginisialisasi controller dan stream, lalu mulai mendengarkan stream tersebut. Setiap kali stream mengeluarkan angka baru (event), state (lastNumber) diperbarui dan UI di-render ulang.
+
+Maksud Kode Langkah 10 (addRandomNumber()):
+
+Menghasilkan angka acak dari 0 hingga 9 dan mengirimkannya ke sink dari NumberStream controller. Angka ini kemudian menjadi event baru di stream.
