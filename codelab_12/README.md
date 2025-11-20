@@ -145,3 +145,20 @@ Langkah 6 (dispose() dengan subscription.cancel()): Membatalkan langganan stream
 
 Langkah 8 (Edit addRandomNumber()): Menambahkan validasi (!numberStreamController.isClosed). Jika stream sudah ditutup (dibatalkan), data baru dicegah untuk dikirim, dan UI diperbarui untuk menunjukkan stream sudah tidak aktif.
 
+Soal 10
+
+![alt text](img/soal_10.png)
+
+Error Bad State: Stream has already been listened to. terjadi karena stream yang digunakan (yaitu stream yang berasal dari NumberStreamController) adalah stream Single-Subscription (langganan tunggal) secara default.
+
+Soal 11
+
+![alt text](img/soal_11.gif)
+
+Stream telah diubah menjadi Broadcast Stream menggunakan asBroadcastStream() (Langkah 4).
+
+- Broadcast Stream: Stream jenis ini mengizinkan banyak listener aktif secara bersamaan.
+
+- Mekanisme: Ketika satu event (myNum) dikirim ke sink, Broadcast Stream akan mengirimkan event tersebut ke semua listener yang terdaftar (subscription dan subscription2).
+
+- Hasil: Karena setiap listener menjalankan setState(() { values += '$event - '; });, setiap angka yang dikirim akan dicetak dua kali ke dalam variabel values, yang kemudian ditampilkan di UI.

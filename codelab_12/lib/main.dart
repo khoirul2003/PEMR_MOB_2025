@@ -44,16 +44,19 @@ class _StreamHomePageState extends State<StreamHomePage> {
   // Praktikum 3: Variabel untuk transformer
   late StreamTransformer<int, int> transformer;
 
-  // Langkah 1: Tambah variabel untuk StreamSubscription
+  // Langkah 1, Praktikum 4: Variabel untuk StreamSubscription
   late StreamSubscription subscription;
+  // Langkah 1, Praktikum 5: Tambah variabel baru
+  late StreamSubscription subscription2;
+  String values = '';
 
-  // Langkah 5: Tambah method baru stopStream()
+  // Langkah 5, Praktikum 4: Tambah method baru stopStream()
   void stopStream() {
     // Menutup controller, yang akan memicu onDone()
     numberStreamController.close();
   }
 
-  // Langkah 8: Edit method addRandomNumber()
+  // Langkah 8, Praktikum 4: Edit method addRandomNumber()
   void addRandomNumber() {
     Random random = Random();
     int myNum = random.nextInt(10); // Menghasilkan angka 0-9
@@ -69,55 +72,43 @@ class _StreamHomePageState extends State<StreamHomePage> {
     }
   }
 
-  // Langkah 2, 3, 4: Edit initState()
+  // Langkah 2, Praktikum 5: Edit initState()
   @override
   void initState() {
     super.initState();
     // Inisialisasi NumberStream
     numberStream = NumberStream();
     numberStreamController = numberStream.controller;
-    Stream<int> stream = numberStreamController.stream;
 
-    // Inisialisasi Transformer (dari Praktikum 3)
-    transformer = StreamTransformer<int, int>.fromHandlers(
-      handleData: (value, sink) {
-        sink.add(value * 10); // Data: Kalikan nilai dengan 10
-      },
-      handleError: (error, trace, sink) {
-        sink.add(-1); // Error: Ganti error dengan nilai -1
-      },
-      handleDone: (sink) =>
-          sink.close(), // Done: Tutup sink saat stream selesai
-    );
+    // Langkah 4: Set broadcast stream
+    Stream stream = numberStreamController.stream.asBroadcastStream();
 
-    // Langkah 2: Mengambil StreamSubscription dari stream yang sudah ditransform
-    subscription = stream.transform(transformer).listen((event) {
+    // --- Praktikum 5: Mencoba multiple subscriptions (sekarang bekerja) ---
+
+    // Langganan pertama
+    subscription = stream.listen((event) {
       setState(() {
-        lastNumber =
-            event; // lastNumber akan menyimpan nilai event * 10 atau -1
+        values += '$event - ';
+        lastNumber = event;
       });
     });
 
-    // Langkah 3: Menambahkan onError ke StreamSubscription
-    subscription.onError((error) {
+    // Langganan kedua pada stream yang SAMA
+    subscription2 = stream.listen((event) {
       setState(() {
-        lastNumber = -1; // Mengatur -1 jika terjadi error
+        values += '$event - '; // Event yang sama akan ditambahkan lagi
       });
     });
-
-    // Langkah 4: Menambahkan onDone ke StreamSubscription
-    subscription.onDone(() {
-      print('OnDone was called');
-    });
+    // --- Akhir Praktikum 5 ---
   }
 
-  // Langkah 6: Pindah ke method dispose()
+  // Langkah 6, Praktikum 4: Pindah ke method dispose()
   @override
   void dispose() {
-    // Membatalkan langganan ketika widget dibuang
+    // Membatalkan kedua langganan
     subscription.cancel();
-    // Menutup controller (walaupun subscription.cancel() sudah membatalkan, ini penting
-    // agar controller tidak bocor jika tidak ada kode cancel)
+    subscription2.cancel();
+    // Menutup controller
     numberStreamController.close();
     super.dispose();
   }
@@ -129,15 +120,17 @@ class _StreamHomePageState extends State<StreamHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // Langkah 11: Edit method build()
+    // Langkah 11, Praktikum 4: Edit method build()
     return Scaffold(
-      appBar: AppBar(title: const Text('Dart Streams Subscription - Khoirul')),
+      appBar: AppBar(title: const Text('Dart Streams Broadcast - Khoirul')),
       body: SizedBox(
         width: double.infinity,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            // Langkah 5: Tambahkan Text(values)
+            Text(values),
             // Menampilkan angka acak terakhir
             Text(
               // Tampilkan ERROR jika lastNumber = -1, jika tidak tampilkan angka
@@ -154,7 +147,7 @@ class _StreamHomePageState extends State<StreamHomePage> {
               onPressed: () => addRandomNumber(),
               child: const Text('New Random Number'),
             ),
-            // Langkah 7: Tambahkan button kedua
+            // Langkah 7, Praktikum 4: Tambahkan button kedua
             ElevatedButton(
               onPressed: () => stopStream(),
               child: const Text('Stop Subscription'),
