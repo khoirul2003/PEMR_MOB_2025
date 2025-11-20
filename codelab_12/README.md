@@ -91,3 +91,5 @@ Jawaban:
   - Perintah kode tersebut membuat Stream periodik yang akan mengeluarkan (emit) salah satu dari sepuluh warna di dalam colors setiap 1 detik, mengulangi urutan warna tersebut secara terus-menerus.
 
 Soal 4
+
+![alt text](img/soal_4.gif)
