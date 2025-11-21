@@ -162,3 +162,14 @@ Stream telah diubah menjadi Broadcast Stream menggunakan asBroadcastStream() (La
 - Mekanisme: Ketika satu event (myNum) dikirim ke sink, Broadcast Stream akan mengirimkan event tersebut ke semua listener yang terdaftar (subscription dan subscription2).
 
 - Hasil: Karena setiap listener menjalankan setState(() { values += '$event - '; });, setiap angka yang dikirim akan dicetak dua kali ke dalam variabel values, yang kemudian ditampilkan di UI.
+
+Soal 12
+
+![alt text](img/soal_12.gif)
+
+Langkah 3 (getNumbers()): Mendefinisikan Stream yang akan mengeluarkan angka acak (0-9) secara periodik setiap 1 detik selama aplikasi berjalan.
+
+Langkah 7 (StreamBuilder): Widget ini mendengarkan (stream: numberStream) angka yang dikirim oleh stream tersebut. Setiap kali angka baru diterima, builder akan dibangun ulang (rebuild) untuk menampilkan angka terbaru (snapshot.data.toString()) di tengah layar.
+
+Soal 13
+
