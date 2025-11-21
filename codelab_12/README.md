@@ -4,7 +4,7 @@ Class: TI3I
 
 NIM: 24410702003
 
-Soal 1
+# Soal 1
 
 ```dart
 class MyApp extends StatelessWidget {
@@ -42,7 +42,7 @@ class _StreamHomePageState extends State<StreamHomePage> {
 
 ![alt text](img/soal_1.png)
 
-Soal 2
+# Soal 2
 
 ```dart
 import 'package:flutter/material.dart';
@@ -65,7 +65,7 @@ class ColorStream {
 ```
 
 
-Soal 3
+# Soal 3
 
 ```dart
 yield* Stream.periodic(
@@ -90,7 +90,7 @@ Jawaban:
 
   - Perintah kode tersebut membuat Stream periodik yang akan mengeluarkan (emit) salah satu dari sepuluh warna di dalam colors setiap 1 detik, mengulangi urutan warna tersebut secara terus-menerus.
 
-Soal 4
+# Soal 4
 
 ![alt text](img/soal_4.gif)
 
@@ -105,7 +105,7 @@ Soal 5
 | **Penggunaan Umum** | Untuk memproses semua event secara berurutan di dalam satu fungsi hingga Stream selesai. | Untuk menangani event secara *real-time* di UI (seperti `setState`) dan tetap memungkinkan kode lain berjalan secara paralel. |
 
 
-Soal 6
+# Soal 6
 
 ![alt text](img/soal_6.gif)
 
@@ -117,7 +117,7 @@ Maksud Kode Langkah 10 (addRandomNumber()):
 
 Menghasilkan angka acak dari 0 hingga 9 dan mengirimkannya ke sink dari NumberStream controller. Angka ini kemudian menjadi event baru di stream.
 
-Soal 7
+# Soal 7
 
 ![alt text](img/soal_7.gif)
 
@@ -127,7 +127,7 @@ Langkah 14 (onError): Menambahkan handler onError pada listener yang bertugas me
 
 Langkah 15 (Edit addRandomNumber()): Mengubah fungsi tombol agar langsung memicu pengiriman error (Langkah 13), bukan angka acak, untuk menguji penanganan error (Langkah 14).
 
-Soal 8
+# Soal 8
 
 ![alt text](20251120-2255-07.8634104.gif)
 
@@ -135,7 +135,7 @@ Langkah 1-2 (Deklarasi dan Inisialisasi transformer): Membuat objek StreamTransf
 
 Langkah 3 (Penerapan transform): Menerapkan transformer ke stream sebelum didengarkan (.listen). Ini memastikan bahwa setiap angka yang diterima dari controller akan diubah (dikali 10 atau diganti -1) sebelum ditampilkan di UI.
 
-Soal 9
+# Soal 9
 
 ![alt text](img/soal_9.gif)
 
@@ -145,13 +145,13 @@ Langkah 6 (dispose() dengan subscription.cancel()): Membatalkan langganan stream
 
 Langkah 8 (Edit addRandomNumber()): Menambahkan validasi (!numberStreamController.isClosed). Jika stream sudah ditutup (dibatalkan), data baru dicegah untuk dikirim, dan UI diperbarui untuk menunjukkan stream sudah tidak aktif.
 
-Soal 10
+# Soal 10
 
 ![alt text](img/soal_10.png)
 
 Error Bad State: Stream has already been listened to. terjadi karena stream yang digunakan (yaitu stream yang berasal dari NumberStreamController) adalah stream Single-Subscription (langganan tunggal) secara default.
 
-Soal 11
+# Soal 11
 
 ![alt text](img/soal_11.gif)
 
@@ -163,7 +163,7 @@ Stream telah diubah menjadi Broadcast Stream menggunakan asBroadcastStream() (La
 
 - Hasil: Karena setiap listener menjalankan setState(() { values += '$event - '; });, setiap angka yang dikirim akan dicetak dua kali ke dalam variabel values, yang kemudian ditampilkan di UI.
 
-Soal 12
+# Soal 12
 
 ![alt text](img/soal_12.gif)
 
@@ -171,5 +171,20 @@ Langkah 3 (getNumbers()): Mendefinisikan Stream yang akan mengeluarkan angka aca
 
 Langkah 7 (StreamBuilder): Widget ini mendengarkan (stream: numberStream) angka yang dikirim oleh stream tersebut. Setiap kali angka baru diterima, builder akan dibangun ulang (rebuild) untuk menampilkan angka terbaru (snapshot.data.toString()) di tengah layar.
 
-Soal 13
+# Soal 13
 
+![alt text](img/soal_13.gif)
+
+1. Maksud Praktikum (BLoC Pattern):
+
+- Tujuannya adalah untuk memisahkan Logika Bisnis (menghasilkan angka acak) dari Lapisan Presentasi (tampilan UI dan tombol).
+
+- BLoC bertindak sebagai handler antara input pengguna dan state aplikasi, menjamin kode UI bersih dan logika mudah diuji.
+
+2. Letak Konsep Pola BLoC:
+
+- Input Event (Sink): Tombol FloatingActionButton tidak memanggil fungsi logika secara langsung, tetapi mengirimkan event ke Input Sink BLoC (_bloc.generateRandom.add(null)).
+
+- Logika Bisnis (BLoC): Kelas RandomNumberBloc menerima event dari Sink, menjalankan logika (Random().nextInt(10)), dan mengirimkan hasilnya ke Output Stream.
+
+- Output State (Stream): Widget StreamBuilder di RandomScreen mendengarkan Output Stream BLoC (_bloc.randomNumber) dan membangun UI ulang secara reaktif ketika angka baru tersedia, tanpa perlu setState().
