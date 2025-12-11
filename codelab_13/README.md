@@ -1,16 +1,27 @@
-# codelab_13
 
-A new Flutter project.
+Question 1
+- Add your nickname to the app title as your work identity.
+- Change the app theme color to your liking.
+- Commit your answer to Question 1 with the message “W13: Answer to Question 1.”
 
-## Getting Started
+```dart
+class _MyHomePageState extends State<MyHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('JSON Khoirul')),
+      body: Container(),
+    );
+  }
+}
+```
 
-This project is a starting point for a Flutter application.
+Question 2
+- Include the screenshot in your lab report.
+- Commit your answer to Question 2 with the message “W13: Answer to Question 2.”
 
-A few resources to get you started if this is your first Flutter project:
+![alt text](img/soal2.png)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Question 3
+- Include the screenshot in your lab report.
+- Commit your answer to Question 2 with the message “W13: Answer to Question 3.”
