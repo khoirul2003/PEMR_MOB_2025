@@ -25,3 +25,5 @@ Question 2
 Question 3
 - Include the screenshot in your lab report.
 - Commit your answer to Question 2 with the message “W13: Answer to Question 3.”
+
+![alt text](img/soal3.png)
