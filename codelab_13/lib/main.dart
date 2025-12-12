@@ -1,6 +1,7 @@
-import 'package:codelab_13/model/pizza.dart';
 import 'package:flutter/material.dart';
+
 import 'dart:convert';
+import 'model/pizza.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,8 +13,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter JSON Demo - Khoirul',
-      theme: ThemeData(primarySwatch: Colors.purple),
+      title: 'Flutter JSON Demo',
+      theme: ThemeData(primarySwatch: Colors.teal),
       home: const MyHomePage(),
     );
   }
@@ -27,12 +28,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String pizzaString = '';
-
   List<Pizza> myPizzas = [];
 
   String convertToJSON(List<Pizza> pizzas) {
-    return jsonEncode(pizzas.map((pizza) => pizza.toJson()).toList());
+    final List<Map<String, dynamic>> pizzaMapList = pizzas
+        .map((pizza) => pizza.toJson())
+        .toList();
+
+    return jsonEncode(pizzaMapList);
   }
 
   Future<List<Pizza>> readJsonFile() async {
@@ -40,25 +43,23 @@ class _MyHomePageState extends State<MyHomePage> {
       context,
     ).loadString('assets/pizzalist.json');
 
-    List pizzaMaplist = jsonDecode(myString);
-    List<Pizza> tempPizzas = [];
+    List pizzaMapList = jsonDecode(myString);
 
-    for (var pizza in pizzaMaplist) {
-      Pizza myPizza = Pizza.fromJson(pizza);
-      tempPizzas.add(myPizza);
+    List<Pizza> myPizzas = [];
+    for (var pizzaMap in pizzaMapList) {
+      Pizza myPizza = Pizza.fromJson(pizzaMap);
+      myPizzas.add(myPizza);
     }
 
-    String jsonOutput = convertToJSON(tempPizzas);
-    print(jsonOutput);
+    String json = convertToJSON(myPizzas);
+    print(json);
 
-
-    return tempPizzas;
+    return myPizzas;
   }
 
   @override
   void initState() {
     super.initState();
-
     readJsonFile().then((value) {
       setState(() {
         myPizzas = value;
@@ -69,7 +70,13 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('JSON Khoirul', style: TextStyle(color: Colors.white),), backgroundColor: Colors.blue,),
+      appBar: AppBar(
+        title: const Text(
+          'JSON Khoirul',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.blue,
+      ),
 
       body: ListView.builder(
         itemCount: myPizzas.length,

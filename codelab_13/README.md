@@ -27,3 +27,10 @@ Question 3
 - Commit your answer to Question 2 with the message “W13: Answer to Question 3.”
 
 ![alt text](img/soal3.png)
+
+Question 4
+- Capture the results of running your application, then import them into your lab report!
+- Then commit with the message “W13: Answer to Question 4”.
+
+![alt text](img/soal4.png)
+
