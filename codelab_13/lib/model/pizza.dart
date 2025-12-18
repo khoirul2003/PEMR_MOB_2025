@@ -1,3 +1,10 @@
+// Step 1: Deklarasi Konstanta untuk Kunci JSON
+const keyId = 'id';
+const keyName = 'pizzaName';
+const keyDescription = 'description';
+const keyPrice = 'price';
+const keyImage = 'imageUrl';
+
 class Pizza {
   final int id;
   final String pizzaName;
@@ -5,47 +12,33 @@ class Pizza {
   final double price;
   final String imageUrl;
 
-  const Pizza({
-    required this.id,
-    required this.pizzaName,
-    required this.description,
-    required this.price,
-    required this.imageUrl,
-  });
+  // Step 2: Konstruktor fromJson() menggunakan Konstanta dan Robustness
+  Pizza.fromJson(Map<String, dynamic> json)
+    : // ID: tryParse & ?? 0
+      id = int.tryParse(json[keyId].toString()) ?? 0,
 
-  factory Pizza.fromJson(Map<String, dynamic> json) {
-    final int parsedId = int.tryParse(json['id'].toString()) ?? 0;
+      // pizzaName: Ternary Operator untuk 'No name'
+      pizzaName = json[keyName] != null ? json[keyName].toString() : 'No name',
 
-    final double parsedPrice = double.tryParse(json['price'].toString()) ?? 0.0;
+      // description: Ternary Operator untuk '' (string kosong)
+      description = json[keyDescription] != null
+          ? json[keyDescription].toString()
+          : '',
 
-    final String parsedPizzaName = (json['pizzaName'] != null)
-        ? json['pizzaName'].toString()
-        : 'No name';
+      // price: double.tryParse & ?? 0.0
+      price = double.tryParse(json[keyPrice].toString()) ?? 0.0,
 
-    final String parsedDescription = (json['description'] != null)
-        ? json['description'].toString()
-        : '';
+      // imageUrl: Null Coalescing sederhana
+      imageUrl = (json[keyImage] ?? '').toString();
 
-    final String parsedImageUrl = (json['imageUrl'] != null)
-        ? json['imageUrl'].toString()
-        : '';
-
-    return Pizza(
-      id: parsedId,
-      pizzaName: parsedPizzaName,
-      description: parsedDescription,
-      price: parsedPrice,
-      imageUrl: parsedImageUrl,
-    );
-  }
-
+  // Step 3: Metode toJson() menggunakan Konstanta
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
-      'pizzaName': pizzaName,
-      'description': description,
-      'price': price,
-      'imageUrl': imageUrl,
+      keyId: id,
+      keyName: pizzaName,
+      keyDescription: description,
+      keyPrice: price,
+      keyImage: imageUrl,
     };
   }
 }
